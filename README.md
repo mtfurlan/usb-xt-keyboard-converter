@@ -1,30 +1,21 @@
 # USB XT Keyboard converter
-So I was at VCFMW 2021, and our booth had a handful of XT computers and somewhere between 0 and 1 XT keyboard.
-We were able to purchase an XT/AT keyboard from a very nice person, but we still needed more.
-
 So this is a thing to allow you to plug a USB keyboard into an XT computer.
 
 
-It's run on a [Adafruit trinket M0](https://www.adafruit.com/product/3500).
+It's run on any arduino ish MCU, connected to a CH559 running this [ch559 usb host](https://github.com/mtfurlan/ch559-usb-host) software.
 
 ## Code overview
-The basic way it works is we have a USB host mode thing that can read keycodes from the USB keyboard.
-We then pass the USB codes through some lookup tables to try to make XT codes, and then we bitbang the XT codes out.
+We get keyboard USB HID data from the CH559, and do magic lookup bullshit to convert it to XT codes, which we bitbang out.
 
 ## Wiring
-There is a voltage shifter between the trinket and the XT.
-| trinket | XT color | XT purpose  |
+There is a voltage shifter between the trinket and the esp.
+| esp     | XT color | XT purpose  |
 | ------- | -------- | ----------  |
 | D2      | white    | 1 clock     |
 | VUSB    | red      | 5 5V        |
 | N/C     | yellow   | 3           |
 | D0      | black    | 2 data      |
 | gnd     | shield   | 4/shell gnd |
-
-D3/D4 are the programming pins
-
-We use the onboard dotstar RGB light for debugging.
-
 
 ## Next Steps
 * Figure out what XT keyboards do on boot, because this isn't detected on boot
