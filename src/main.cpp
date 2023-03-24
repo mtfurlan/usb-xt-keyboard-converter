@@ -1,8 +1,10 @@
 #include <Arduino.h>
 #include "xt_defines.h"
 
-#define xt_data 0
-#define xt_clk 2
+#define xt_data 23
+#define xt_clk 22
+
+#define DEBUG true
 
 #define RX_BUF_SIZE 1024
 uint8_t uartRxBuff[RX_BUF_SIZE];
@@ -81,8 +83,7 @@ void xt_write(unsigned char value)
 void key(int usbScan, bool down) {
     if(DEBUG) {
         Serial.print(down ? "pressed: " : "unpressed: ");
-        Serial.print("usbOrig: ");
-        Serial.print(usbScan);
+        Serial.printf("usbOrig: 0x%02X %d, ", usbScan, usbScan);
     }
     // the array is sparse, and this is stupid. Sorry.
     // TODO: rework array map
@@ -131,10 +132,7 @@ void key(int usbScan, bool down) {
             break;
     }
     if(DEBUG) {
-        Serial.print(", usbFinal: ");
-        Serial.print(usbScan);
-        Serial.print(", xt: 0x");
-        Serial.println(xt_first, HEX);
+        Serial.printf("usbFinal: 0x%02X %d, xt: 0x%02X\r\n", usbScan, usbScan, xt_first);
     }
     if(down) {
         xt_write(xt_first);
@@ -320,11 +318,11 @@ void loop()
             cmdLength += (uartRxBuff[rxPos] << 8);
             //printf( "Length: %i\n", cmdLength);//Only for Debug
         } else if (cmdType == 0 && uartRxBuff[rxPos] == '\n') {
-            printf("No COMMAND Received\n");
+            printf("No COMMAND Received\r\n");
             for (uint8_t i = 0; i < rxPos; i++) {
                 printf("0x%02X ", uartRxBuff[i]);
             }
-            printf("\n");
+            printf("\r\n");
             rxPos = 0;
             cmdType = 0;
         }
