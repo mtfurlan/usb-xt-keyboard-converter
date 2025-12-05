@@ -1,4 +1,8 @@
 # USB XT Keyboard converter
+
+Use [rasteri/HIDman](https://github.com/rasteri/HIDman) instead, this project was never quite finished.
+
+---
 So I was at VCFMW 2021, and our booth had a handful of XT computers and somewhere between 0 and 1 XT keyboard.
 We were able to purchase an XT/AT keyboard from a very nice person, but we still needed more.
 
